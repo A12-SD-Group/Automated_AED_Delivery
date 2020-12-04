@@ -2,5 +2,5 @@ main(){
 	int x = 1;
 	int y = 2;
 	int z = x + y;
-	printf("%d", z);
+	printf("1 + 2 = %d\n", z);
 }
