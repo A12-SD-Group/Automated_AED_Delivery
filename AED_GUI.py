@@ -5,11 +5,16 @@ from tkinter import messagebox
 #from tkinter.ttk import Label
 from initializing import Initialize
 
+
+###testing commit
+
 #define root window
 root = Tk()
 root.title("Automated AED Delivery System")
 #add an icon
-root.iconbitmap("C:/Users/User1/Documents/SENIOR DESIGN/Automated_AED_Delivery/temple_logo.ico")
+#root.iconbitmap("@/home/pi/Automated_AED_System/temple_logo.ico")
+img = PhotoImage(file='temple_logo.png')
+root.tk.call('wm', 'iconphoto', root._w, img)
 
 #state global variable delcaration 
 #used in main window label to show active status
