@@ -4,9 +4,7 @@ from PIL import ImageTk,Image
 from tkinter import messagebox
 #from tkinter.ttk import Label
 from initializing import Initialize
-
-
-###testing commit
+from testing import *
 
 #define root window
 root = Tk()
@@ -35,6 +33,8 @@ def test_call():
 	#change status of the label in root
 	status.set("Testing State")
 	status_label.config(text=status.get())
+	###calls the MQTT as of right now
+	testing_called()
 	return 
 
 #function called after save button is push in init_call top level window

@@ -14,16 +14,17 @@ def on_publish(client,userdata,result):             #create function for callbac
     print("data published \n")
     pass
 
-client = mqtt.Client("AED_rasp_pi")
-#client.on_connect = on_connect
-#client.on_publish = on_publish  
-#client.on_message = on_message
-#client.loop_start()
-#client.connect("192.168.43.81", 1883, 60)
-#print("Connecting to broker ","maqiatto.com")
-client.username_pw_set("tuf53905@temple.edu", password="GMPQTtw7")
-client.connect("maqiatto.com", 1883, 60 )
-client.publish("tuf53905@temple.edu/AEDAutoDelivery","on")                   #publish
+def testing_called():
+    client = mqtt.Client("AED_rasp_pi")
+    #client.on_connect = on_connect
+    #client.on_publish = on_publish  
+    #client.on_message = on_message
+    #client.loop_start()
+    #client.connect("192.168.43.81", 1883, 60)
+    #print("Connecting to broker ","maqiatto.com")
+    client.username_pw_set("tuf53905@temple.edu", password="GMPQTtw7")
+    client.connect("maqiatto.com", 1883, 60 )
+    client.publish("tuf53905@temple.edu/AEDAutoDelivery","on")                   #publish
 
 
 #client.loop_start()
