@@ -5,6 +5,7 @@ from tkinter import messagebox
 #from tkinter.ttk import Label
 from initializing import Initialize
 from testing import *
+from active_running import *
 
 #define root window
 root = Tk()
@@ -25,7 +26,8 @@ status.set("Not Initialize")
 def idle_call():
 	#change status of the label in root
 	status.set("Idle State")
-	status_label.config(text=status.get())	
+	status_label.config(text=status.get())
+	idle_state()
 	return
 
 #called when test button is hit in root
