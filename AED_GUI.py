@@ -9,6 +9,7 @@ from testing import *
 import RPi.GPIO as GPIO
 from floor import *
 import signal
+from idle import Idle
 
 #define root window
 root = Tk()
@@ -102,56 +103,17 @@ def init_call():
 	save_button.grid(row=6,column=0,columnspan=2)	
 	return
 
-def call_16(channel):
-    call_floor_16 = Floor(16)
-    call_floor_16.send_message()
-    print('called')
-    return
-    
-def call_25(channel):
-    call_floor_25 = Floor(25)
-    call_floor_25.send_message()
-    print('whats better than 24?')
-    return
-
-def stop_idle():
-    GPIO.cleanup()
-    idle_stop = 0
-    return
 
 def idle_call():
-    #change status of the label in root
-    status.set("Ideal State")
-    status_label.config(text=status.get())
-
-    #call top window
-    idle_top = Toplevel()
-    idle_top.title("Idle")
-
-    #create stop button
-    stop_button = Button(idle_top, text="STOP IDLE", command=stop_idle)
-    stop_button.grid(row=1,column=0,columnspan=2)
-
-
-    GPIO.setwarnings(False)
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-    GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    idle_window = Idle()
+    while idle_window.idle_stop != 0:
+        idle_window.wait_for_signal()
+        
+    del idle_window
     
-    global idle_stop
-    idle_stop = 1
-
-    
-    while idle_stop != 0:
-        GPIO.add_event_detect(25, GPIO.FALLING, callback=call_25, bouncetime=300)
-        GPIO.add_event_detect(16, GPIO.FALLING, callback=call_16, bouncetime=300)
-    
-    # idle_top.destroy()
-    #idle_top.update()
     return
     
- 
-	
+
 #add labels 
 welcome_label = Label(root, text="Welcome to the Automated AED Delivery System", font=("Arial", 25), width=50, borderwidth=5)
 status_label = Label(root,text=status.get(), font=("Arial", 16))

@@ -1,4 +1,9 @@
 import RPi.GPIO as GPIO
+from tkinter import *
+from PIL import ImageTk,Image
+#needed to use messagebox
+from tkinter import messagebox
+from floor import *
 
 class Idle:
     
@@ -7,8 +12,7 @@ class Idle:
         self.idle_top.title("Idle")
 
         #create stop button
-        stop_button = Button(idle_top, text="STOP IDLE", command=self.stop_idle)
-        stop_button.grid(row=1,column=0,columnspan=2)
+        self.stop_idle_label = Label(self.idle_top, text="Exit the Window Idle Window to Exit Idle State")
 
 
 
@@ -21,10 +25,8 @@ class Idle:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        
-        while idle_stop != 0:
-            GPIO.add_event_detect(25, GPIO.FALLING, callback=self.call_25, bouncetime=300)
-            GPIO.add_event_detect(16, GPIO.FALLING, callback=self.call_16, bouncetime=300)
+        GPIO.add_event_detect(25, GPIO.FALLING, callback=self.call_25, bouncetime=300)
+        GPIO.add_event_detect(16, GPIO.FALLING, callback=self.call_16, bouncetime=300)
             
 
             
