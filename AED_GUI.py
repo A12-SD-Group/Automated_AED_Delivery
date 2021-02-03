@@ -5,7 +5,10 @@ from tkinter import messagebox
 #from tkinter.ttk import Label
 from initializing import Initialize
 from testing import *
-from active_running import *
+#from active_running import *
+import RPi.GPIO as GPIO
+from floor import *
+import signal
 
 #define root window
 root = Tk()
@@ -23,12 +26,12 @@ status.set("Not Initialize")
 
 
 #define button functions
-def idle_call():
+#def idle_call():
 	#change status of the label in root
-	status.set("Idle State")
-	status_label.config(text=status.get())
-	idle_state()
-	return
+#	status.set("Idle State")
+#	status_label.config(text=status.get())
+#	idle_state()
+#	return
 
 #called when test button is hit in root
 def test_call():
@@ -98,6 +101,55 @@ def init_call():
 	save_button = Button(init_top, text="Save", command=save_info)
 	save_button.grid(row=6,column=0,columnspan=2)	
 	return
+
+def call_16(channel):
+    call_floor_16 = Floor(16)
+    call_floor_16.send_message()
+    print('called')
+    return
+    
+def call_25(channel):
+    call_floor_25 = Floor(25)
+    call_floor_25.send_message()
+    print('whats better than 24?')
+    return
+
+def stop_idle():
+    GPIO.cleanup()
+    idle_stop = 0
+    return
+
+def idle_call():
+    #change status of the label in root
+    status.set("Ideal State")
+    status_label.config(text=status.get())
+
+    #call top window
+    idle_top = Toplevel()
+    idle_top.title("Idle")
+
+    #create stop button
+    stop_button = Button(idle_top, text="STOP IDLE", command=stop_idle)
+    stop_button.grid(row=1,column=0,columnspan=2)
+
+
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    
+    global idle_stop
+    idle_stop = 1
+
+    
+    while idle_stop != 0:
+        GPIO.add_event_detect(25, GPIO.FALLING, callback=call_25, bouncetime=300)
+        GPIO.add_event_detect(16, GPIO.FALLING, callback=call_16, bouncetime=300)
+    
+    # idle_top.destroy()
+    #idle_top.update()
+    return
+    
  
 	
 #add labels 
