@@ -55,16 +55,20 @@ class AED_GUI(Tk):
         self.init_data = Initialize()
     
 
-
+###########WHY YOU NO WORK########################
     def idle_call(self):
         self.status = "Idle State"
         self.status_label.config(text=self.status)
+        self.idle_top = Toplevel()
+        self.idle_top.title("Idle")
+        #create exit label
+        self.exit_idle_label = Label(self.idle_top, text="Exit the Window Idle Window to Exit Idle State")
+        self.exit_idle_label.grid(row=0,column=0, columnspan=3, rowspan=3)
         idle_window = Idle(self.init_data.data_class.file_name)
-        while idle_window.idle_stop != 0:
-            idle_window.wait_for_signal()
-            
+        while idle_window.idle_stop == 1:
+            pass
+        print("I am out of while loop")
         del idle_window
-        
         return
 
 root = AED_GUI()

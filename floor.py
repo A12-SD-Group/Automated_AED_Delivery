@@ -9,8 +9,12 @@ class Floor:
         self.client.username_pw_set("tuf53905@temple.edu", password="GMPQTtw7")
         self.client.connect("maqiatto.com", 1883, 60 )
         self.message = "CARDIAC EMERGENCY ON FLOOR " + str(floor_number)
-    def send_message(self):
-        self.client.publish("tuf53905@temple.edu/AEDAutoDelivery",self.message)
+        return
+    
+    def send_message(self, location_message):
+        sent_message = self.message + " at " + location_message
+        self.client.publish("tuf53905@temple.edu/AEDAutoDelivery",sent_message)
+        return
         
 ######Testing
 def main():

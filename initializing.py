@@ -58,7 +58,7 @@ class Initialize:
         company_name = self.company_entry.get()
         street_name = self.street_entry.get()
         city_name = self.city_entry.get()
-        state_name = self.street_entry.get()
+        state_name = self.state_entry.get()
         zip_name = self.zip_entry.get()
         
         info_array = [company_name, street_name, city_name, state_name, zip_name]

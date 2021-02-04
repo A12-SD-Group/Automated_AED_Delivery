@@ -25,9 +25,7 @@ class Data_class:
 		#creates csv file
 		self.file_name = self.folder_name + "/" + data_array[0] + "_info_" + date + ".csv"
 		
-		#sets global variable in main function
-		global file_path
-		file_path = self.file_name
+
 		fields = ['company_name', 'street_name', 'city_name', 'state_name', 'zip_name']
 		with open(self.file_name, 'w') as csvfile:
 			
