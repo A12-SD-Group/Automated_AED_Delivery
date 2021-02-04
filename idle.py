@@ -4,20 +4,25 @@ from PIL import ImageTk,Image
 #needed to use messagebox
 from tkinter import messagebox
 from floor import *
+import csv
 
 class Idle:
     
-    def __init__(self):
+    def __init__(self, file_path):
         self.idle_top = Toplevel()
         self.idle_top.title("Idle")
 
-        #create stop button
-        self.stop_idle_label = Label(self.idle_top, text="Exit the Window Idle Window to Exit Idle State")
-
-
-
-        
+        #create exit label
+        self.exit_idle_label = Label(self.idle_top, text="Exit the Window Idle Window to Exit Idle State")
+        self.exit_idle_label.grid(row=0,column=0, columnspan=3, rowspan=3)
         self.idle_stop = 1
+        
+        # create message from file_path
+        with open(file_path) as csv_file:
+            csv_reader = csv.reader(csv_file)
+            rows = list(csv_reader)
+            print(rows[1])
+        
 
             
     def wait_for_signal(self):
