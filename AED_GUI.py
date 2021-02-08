@@ -4,7 +4,7 @@ from PIL import ImageTk,Image
 from tkinter import messagebox
 #from tkinter.ttk import Label
 from initializing import Initialize
-from testing import *
+#from testing import *
 #from active_running import *
 import RPi.GPIO as GPIO
 from floor import *
@@ -55,23 +55,29 @@ class AED_GUI(Tk):
         self.init_data = Initialize()
     
 
-###########WHY YOU NO WORK########################
+    #function called with Idle State Button is Pressed
     def idle_call(self):
+        #change status on main window
         self.status = "Idle State"
         self.status_label.config(text=self.status)
-        self.idle_top = Toplevel()
-        self.idle_top.title("Idle")
-        #create exit label
-        self.exit_idle_label = Label(self.idle_top, text="Exit the Window Idle Window to Exit Idle State")
-        self.exit_idle_label.grid(row=0,column=0, columnspan=3, rowspan=3)
+        #initiate idle state
         idle_window = Idle(self.init_data.data_class.file_name)
-        while idle_window.idle_stop == 1:
-            pass
-        print("I am out of while loop")
-        del idle_window
+        
+        #destroy instance of Idle class when Idle is exited
+        #remove interrupts
+        if idle_window.response == 'ok':
+            del idle_window
+            GPIO.remove_event_detect(25)
+            GPIO.remove_event_detect(16)
         return
 
-root = AED_GUI()
+def main():
+    global root
+    root = AED_GUI()
+    root.mainloop()
+    
+if __name__ == "__main__":
+    main()
+    
 
-root.mainloop()
 

@@ -4,6 +4,7 @@ import csv
 import paho.mqtt.client as mqtt 
 
 class Floor:
+    #this class connects to the MQTT and can send the emergency message though send_message function
     def __init__(self, floor_number):
         self.client = mqtt.Client("AED_rasp_pi")
         self.client.username_pw_set("tuf53905@temple.edu", password="GMPQTtw7")
@@ -11,7 +12,9 @@ class Floor:
         self.message = "CARDIAC EMERGENCY ON FLOOR " + str(floor_number)
         return
     
+    #sends the emergency message through the MaQiaTTo MQTT connection
     def send_message(self, location_message):
+        #input includes more specfic message with location
         sent_message = self.message + " at " + location_message
         self.client.publish("tuf53905@temple.edu/AEDAutoDelivery",sent_message)
         return
