@@ -10,6 +10,9 @@ from Data_class import *
 
 class Initialize:
     def __init__(self):
+        #initalize data class
+        self.data_class = None
+        
         #call top window
         self.init_top = Toplevel()
         self.init_top.title("Initialization")
@@ -50,8 +53,6 @@ class Initialize:
         self.save_button = Button(self.init_top, text="Save", command=self.save_info)
         self.save_button.grid(row=6,column=0,columnspan=2)
         
-        #initalize data class
-        self.data_class = None
         
 
     def save_info(self):

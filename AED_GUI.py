@@ -11,6 +11,7 @@ from floor import *
 import signal
 from idle import Idle
 from Data_class import *
+from testing_state import *
 
 class AED_GUI(Tk):
     def __init__(self):
@@ -19,6 +20,7 @@ class AED_GUI(Tk):
         self.title("Automated AED Delivery System")
         self.status=StringVar()
         self.status="Not Initialize"
+        self.motor_calibration = "Motor Needs Calibration"
         
         #add labels 
         self.welcome_label = Label(self, text="Welcome to the Automated AED Delivery System", font=("Arial", 25), width=50, borderwidth=5)
@@ -37,14 +39,26 @@ class AED_GUI(Tk):
         
         self.init_data = None
         
+        return 
 
     # #called when test button is hit in root
     def test_call(self):
         #change status of the label in root
         self.status = "Testing State"
         self.status_label.config(text=self.status)
-        ###calls the MQTT as of right now
-        testing_called()
+        ########calls the MQTT as of right now
+        #######testing_called()
+        if(self.motor_calibration == "Motor Needs Calibration"):
+            testing_window = Testing()
+            self.wait_window(testing_window.test_top)
+            self.motor_calibration = testing_window.calibration_complete
+            del testing_window
+        else:
+            testing_window = Testing("complete")
+            self.wait_window(testing_window.test_top)
+            print("complete")
+            del testing_window
+            
         return 
 
 
@@ -52,23 +66,30 @@ class AED_GUI(Tk):
     def init_call(self):
         self.status = "Initializing State"
         self.status_label.config(text=self.status)
-        self.init_data = Initialize()
+        initialize_window = Initialize()
+        self.wait_window(initialize_window.init_top)
+        self.init_data = initialize_window.data_class.file_name
+        del initialize_window
+        return
     
 
     #function called with Idle State Button is Pressed
     def idle_call(self):
-        #change status on main window
-        self.status = "Idle State"
-        self.status_label.config(text=self.status)
-        #initiate idle state
-        idle_window = Idle(self.init_data.data_class.file_name)
-        
-        #destroy instance of Idle class when Idle is exited
-        #remove interrupts
-        if idle_window.response == 'ok':
-            del idle_window
-            GPIO.remove_event_detect(25)
-            GPIO.remove_event_detect(16)
+        if (self.motor_calibration == "Motor Needs Calibration"):
+            messagebox.showerror("Motor Error", "You must calibrate the motor in the testing state before moving to the idle state.")
+        else:
+            #change status on main window
+            self.status = "Idle State"
+            self.status_label.config(text=self.status)
+            #initiate idle state
+            idle_window = Idle(self.init_data)
+            
+            #destroy instance of Idle class when Idle is exited
+            #remove interrupts
+            if idle_window.response == 'ok':
+                del idle_window
+                GPIO.remove_event_detect(25)
+                GPIO.remove_event_detect(16)
         return
 
 def main():
@@ -79,5 +100,3 @@ def main():
 if __name__ == "__main__":
     main()
     
-
-

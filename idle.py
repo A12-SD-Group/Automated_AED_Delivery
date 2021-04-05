@@ -40,7 +40,7 @@ class Idle:
     def call_25(self, channel):
         if (self.response != 'ok'):
             call_floor_25 = Floor(25)
-            call_floor_25.send_message(self.location_info)
+            call_floor_25.send_message(self.location_info, "25")
             call_floor_25.client.disconnect()
             return
         else:
@@ -50,7 +50,7 @@ class Idle:
     def call_16(self, channel):
         if (self.response != 'ok'):
             call_floor_16 = Floor(16)
-            call_floor_16.send_message(self.location_info)
+            call_floor_16.send_message(self.location_info, "16")
             call_floor_16.client.disconnect()
             return
         else:
