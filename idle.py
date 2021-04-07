@@ -23,12 +23,12 @@ class Idle:
         
         self.idle_status = "You are in Idle State, exit the window to move states"
         #Set up GPIO Interrupts
-        GPIO.setwarnings(False)
+        #GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(25, GPIO.FALLING, callback=self.call_25, bouncetime=300)
-        GPIO.add_event_detect(16, GPIO.FALLING, callback=self.call_16, bouncetime=300)
+        GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.add_event_detect(24, GPIO.RISING, callback=self.call_24, bouncetime=300)
+        GPIO.add_event_detect(16, GPIO.RISING, callback=self.call_16, bouncetime=300)
         
 #         #create response variable to track when user wants to exit Idle state
 #         #create messagebox show info pop up window for user input
@@ -39,7 +39,7 @@ class Idle:
         self.idle_top.title("Idle")
         
         #create prompt labels
-        self.title_idle = Label(self.idle_top, text = self.idle_status,font=("Arial", 25), width=50, borderwidth=5)
+        self.title_idle = Label(self.idle_top, text = self.idle_status,font=("Arial", 24), width=50, borderwidth=5)
         
         #place prompt labels
         self.title_idle.grid(row=0, column = 0, columnspan = 2)
@@ -47,17 +47,21 @@ class Idle:
         return
         
      
-    #function called when button 25 is hit
-    def call_25(self, channel):
+    #function called when button 24 is hit
+    def call_24(self, channel):
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
-        call_floor_25 = Floor(25)
-        call_floor_25.send_message(self.location_info, "25")
-        call_floor_25.client.disconnect()
+        self.title_idle.config(text=self.idle_status)
+        print("I am in 24")
+        call_floor_24 = Floor(24)
+        call_floor_24.send_message(self.location_info, "24")
+        call_floor_24.client.disconnect()
         return
         
     #function called when button 16 is hit
     def call_16(self, channel):
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
+        self.title_idle.config(text=self.idle_status)
+        print("I am in 16")
         call_floor_16 = Floor(16)
         call_floor_16.send_message(self.location_info, "16")
         call_floor_16.client.disconnect()
