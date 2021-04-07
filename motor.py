@@ -11,7 +11,7 @@ class Motor:
         self.return_code = 0
         
         for pin in self.ControlPin:
-            GPIO.cleanup(pin)
+            #GPIO.cleanup(pin)
             GPIO.setup(pin, GPIO.OUT)
             GPIO.output(pin,0)
             

@@ -83,13 +83,14 @@ class AED_GUI(Tk):
             self.status_label.config(text=self.status)
             #initiate idle state
             idle_window = Idle(self.init_data)
+            self.wait_window(idle_window.idle_top)
             
             #destroy instance of Idle class when Idle is exited
             #remove interrupts
-            if idle_window.response == 'ok':
-                del idle_window
-                GPIO.remove_event_detect(25)
-                GPIO.remove_event_detect(16)
+            del idle_window
+            GPIO.remove_event_detect(25)
+            GPIO.remove_event_detect(16)
+            
         return
 
 def main():
