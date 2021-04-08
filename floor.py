@@ -18,7 +18,7 @@ class Floor:
         #input includes more specfic message with location
         sent_message = self.message + " at " + location_message
         self.client.publish("tuf53905@temple.edu/AEDAutoDelivery",sent_message)
-        #self.client.publish("tuf53905@temple.edu/MotorControl",floor)
+        self.client.publish("tuf53905@temple.edu/MotorControl",floor)
         return
         
 ######Testing
