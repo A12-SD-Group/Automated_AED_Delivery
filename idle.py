@@ -23,11 +23,13 @@ class Idle:
             self.location_info += " "
         
         self.idle_status = "You are in Idle State, exit the window to move states"
-        #Set up GPIO Interrupts
+        #Set up GPIO Interrupts [18, 24, 12, 20] = floor [1, 2, 3, 4]
         #GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(12, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         #GPIO.add_event_detect(24, GPIO.RISING, callback=self.call_24, bouncetime=300)
         #GPIO.add_event_detect(16, GPIO.RISING, callback=self.call_16, bouncetime=300)
         
@@ -40,7 +42,7 @@ class Idle:
         self.idle_top.title("Idle")
         
         #create prompt labels
-        self.title_idle = Label(self.idle_top, text = self.idle_status,font=("Arial", 24), width=50, borderwidth=5)
+        self.title_idle = Label(self.idle_top, text = self.idle_status,font=("Arial", 14), width=75, borderwidth=5)
         
         #place prompt labels
         self.title_idle.grid(row=0, column = 0, columnspan = 2)
@@ -49,39 +51,71 @@ class Idle:
         
         
         
-
-        while True:
+        no_call = True
+        while no_call:
+        #Set up GPIO Interrupts [18, 24, 12, 20] = floor [1, 2, 3, 4]
             
-            if GPIO.input(20) == GPIO.HIGH:
-                self.call_20()
+            if GPIO.input(18) == GPIO.HIGH:
+                self.call_1()
+                no_call = False
             elif GPIO.input(24) == GPIO.HIGH:
-                self.call_24()
+                self.call_2()
+                no_call = False
+            elif GPIO.input(12) == GPIO.HIGH:
+                self.call_3()
+                no_call = False
+            elif GPIO.input(20) == GPIO.HIGH:
+                self.call_4()
+                no_call = False
             
-        
-        
-        
         return
         
-     
-    #function called when button 24 is hit
-    def call_24(self):
+    #Set up GPIO Interrupts [18, 24, 12, 20] = floor [1, 2, 3, 4]
+    #function called when GPIO18 button (floor 1) is hit
+    def call_1(self):
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
-        print("I am in 24")
-        call_floor_24 = Floor(24)
-        call_floor_24.send_message(self.location_info, "24")
-        call_floor_24.client.disconnect()
+        self.idle_top.update()
+        print("I am in 1")
+        call_floor_1 = Floor(1)
+        call_floor_1.send_message(self.location_info, "1")
+        call_floor_1.client.disconnect()
         return
-        
-    #function called when button 20 is hit
-    def call_20(self):
+    
+    #function called when GPIO24 button (floor 2) is hit
+    def call_2(self):
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
-        print("I am in 20")
-        call_floor_20 = Floor(20)
-        call_floor_20.send_message(self.location_info, "20")
-        call_floor_20.client.disconnect()
+        self.idle_top.update()
+        print("I am in 2")
+        call_floor_2 = Floor(2)
+        call_floor_2.send_message(self.location_info, "2")
+        call_floor_2.client.disconnect()
         return
+    
+    #function called when GPIO12 button (floor 3) is hit
+    def call_3(self):
+        self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
+        self.title_idle.config(text=self.idle_status)
+        self.idle_top.update()
+        print("I am in 3")
+        call_floor_3 = Floor(3)
+        call_floor_3.send_message(self.location_info, "3")
+        call_floor_3.client.disconnect()
+        return
+    
+    #function called when GPIO20 button (floor 4) is hit
+    def call_4(self):
+        self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
+        self.title_idle.config(text=self.idle_status)
+        self.idle_top.update()
+        print("I am in 4")
+        call_floor_4 = Floor(4)
+        call_floor_4.send_message(self.location_info, "4")
+        call_floor_4.client.disconnect()
+        return
+        
+    
 
 
 
