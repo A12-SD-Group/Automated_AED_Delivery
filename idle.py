@@ -5,6 +5,7 @@ from PIL import ImageTk,Image
 from tkinter import messagebox
 from floor import *
 import csv
+import time
 
 class Idle:
     
@@ -44,7 +45,13 @@ class Idle:
         #place prompt labels
         self.title_idle.grid(row=0, column = 0, columnspan = 2)
         
+        self.idle_top.update()
+        
+        
+        
+
         while True:
+            
             if GPIO.input(20) == GPIO.HIGH:
                 self.call_20()
             elif GPIO.input(24) == GPIO.HIGH:
