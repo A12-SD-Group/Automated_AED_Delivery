@@ -84,7 +84,7 @@ class AED_GUI(Tk):
             #initiate idle state
             idle_window = Idle(self.init_data)
             self.wait_window(idle_window.idle_top)
-            
+            print("I am out of idle")
             
             #destroy instance of Idle class when Idle is exited
             #remove interrupts

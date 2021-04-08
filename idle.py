@@ -25,10 +25,10 @@ class Idle:
         #Set up GPIO Interrupts
         #GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(24, GPIO.RISING, callback=self.call_24, bouncetime=300)
-        GPIO.add_event_detect(16, GPIO.RISING, callback=self.call_16, bouncetime=300)
+        GPIO.setup(20, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+        #GPIO.add_event_detect(24, GPIO.RISING, callback=self.call_24, bouncetime=300)
+        #GPIO.add_event_detect(16, GPIO.RISING, callback=self.call_16, bouncetime=300)
         
 #         #create response variable to track when user wants to exit Idle state
 #         #create messagebox show info pop up window for user input
@@ -44,11 +44,20 @@ class Idle:
         #place prompt labels
         self.title_idle.grid(row=0, column = 0, columnspan = 2)
         
+        while True:
+            if GPIO.input(20) == GPIO.HIGH:
+                self.call_20()
+            elif GPIO.input(24) == GPIO.HIGH:
+                self.call_24()
+            
+        
+        
+        
         return
         
      
     #function called when button 24 is hit
-    def call_24(self, channel):
+    def call_24(self):
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
         print("I am in 24")
@@ -57,14 +66,14 @@ class Idle:
         call_floor_24.client.disconnect()
         return
         
-    #function called when button 16 is hit
-    def call_16(self, channel):
+    #function called when button 20 is hit
+    def call_20(self):
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
-        print("I am in 16")
-        call_floor_16 = Floor(16)
-        call_floor_16.send_message(self.location_info, "16")
-        call_floor_16.client.disconnect()
+        print("I am in 20")
+        call_floor_20 = Floor(20)
+        call_floor_20.send_message(self.location_info, "20")
+        call_floor_20.client.disconnect()
         return
 
 
