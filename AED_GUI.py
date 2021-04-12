@@ -90,6 +90,14 @@ class AED_GUI(Tk):
             #destroy instance of Idle class when Idle is exited
             #remove interrupts
             #if idle_window.response == 'ok':
+            call_floor = str(idle_window.call_floor)
+            return_floor = "return " + call_floor
+            print(call_floor)
+            client_return = mqtt.Client("AED_rasp_pi")
+            client_return.username_pw_set("tuf53905@temple.edu", password="GMPQTtw7")
+            client_return.connect("maqiatto.com", 1883, 60 )
+            client_return.publish("tuf53905@temple.edu/MotorControl",return_floor)
+            
             del idle_window
             GPIO.cleanup()
             

@@ -23,6 +23,7 @@ class Idle:
             self.location_info += " "
         
         self.idle_status = "You are in Idle State, exit the window to move states"
+        self.call_floor = None
         #Set up GPIO Interrupts [18, 24, 12, 20] = floor [1, 2, 3, 4]
         #GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
@@ -49,7 +50,22 @@ class Idle:
         
         self.idle_top.update()
         
-        
+#         no_call = True
+#         while no_call:
+#         #Set up GPIO Interrupts [18, 24, 12, 20] = floor [1, 2, 3, 4]
+#             input1 = input()
+#             if input1 == "one":
+#                 self.call_1()
+#                 no_call = False
+#             elif input1 == "two":
+#                 self.call_2()
+#                 no_call = False
+#             elif input1 == "three":
+#                 self.call_3()
+#                 no_call = False
+#             elif input1 == "four":
+#                 self.call_4()
+#                 no_call = False
         
         no_call = True
         while no_call:
@@ -76,6 +92,7 @@ class Idle:
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
         self.idle_top.update()
+        self.call_floor = 1
         print("I am in 1")
         call_floor_1 = Floor(1)
         call_floor_1.send_message(self.location_info, "1")
@@ -87,6 +104,7 @@ class Idle:
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
         self.idle_top.update()
+        self.call_floor = 2
         print("I am in 2")
         call_floor_2 = Floor(2)
         call_floor_2.send_message(self.location_info, "2")
@@ -99,6 +117,7 @@ class Idle:
         self.title_idle.config(text=self.idle_status)
         self.idle_top.update()
         print("I am in 3")
+        self.call_floor = 3
         call_floor_3 = Floor(3)
         call_floor_3.send_message(self.location_info, "3")
         call_floor_3.client.disconnect()
@@ -109,6 +128,7 @@ class Idle:
         self.idle_status = "ACTIVE STATE ENGAGED. EXIT THE WINDOW AFTER INCIDENT FOR RESET"
         self.title_idle.config(text=self.idle_status)
         self.idle_top.update()
+        self.call_floor = 4
         print("I am in 4")
         call_floor_4 = Floor(4)
         call_floor_4.send_message(self.location_info, "4")
